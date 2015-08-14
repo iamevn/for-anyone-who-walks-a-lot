@@ -1,5 +1,4 @@
-/* #include <3ds.h> */
-#include </opt/devkitpro/libctru/include/3ds.h>
+#include <3ds.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>

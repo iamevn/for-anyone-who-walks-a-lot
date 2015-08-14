@@ -1,10 +1,9 @@
+#include <3ds.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/stat.h>
-/* #include <3ds.h> */
-#include </opt/devkitpro/libctru/include/3ds.h>
 #include "extdata.h"
 #include "persistantData.h"
 
