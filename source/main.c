@@ -37,16 +37,16 @@ int main()
 
 
 	/* TEST DATA */
-	today.day = 14; today.month=8; today.year=2015;
-	todaysteps = 10;
-	todaycoins = 0;
+	/* today.day = 15; today.month=8; today.year=2015; */
+	/* todaysteps = 100; */
+	/* todaycoins = 1; */
 	/* REMOVE FOR ACTUAL 3DS */
 
 	Result res = mydataInit(today.day, today.month, today.year);
-	printf("mydataInit() returned %d\n", (int)res);
+	/* printf("mydataInit() returned %d\n", (int)res); */
 	if (res == 1) {
 		u16 storedcoins = getStoredCoins();
-		printf("today coins: %d\nstored coins: %d\n", (unsigned int)todaycoins, (unsigned int)storedcoins);
+		/* printf("today coins: %d\nstored coins: %d\n", (unsigned int)todaycoins, (unsigned int)storedcoins); */
 		todaycoins = (storedcoins > todaycoins) ? storedcoins : todaycoins;
 	}
 	consoleInit(GFX_TOP, GFX_LEFT);
