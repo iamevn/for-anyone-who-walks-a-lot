@@ -26,7 +26,11 @@ bool dateCurrent(u8 day, u8 month, u16 year);
 void readFileToBuff();
 void writeBuffToFile();
 
-
+/* sets up various buffers and makes sure file is there and is valid
+ * if file is not there/invalid, return 2 to indicate something was wrong with file and it's been reset
+ * if file is fine but outdated, return 0 to indicate file was reset
+ * otherwise return 1 to indicate file is current
+ */
 Result mydataInit(u8 day, u8 month, u16 year)
 {
 	Result ret;
@@ -37,7 +41,7 @@ Result mydataInit(u8 day, u8 month, u16 year)
 	/* check for file's existence */
 	file = fopen(filename, "rb");
 	if (file == NULL) {
-		ret = 2;
+		ret = 2; //file doesn't exist
 REINIT:     /* initialize it */
 		buffReset(day, month, year);
 		writeBuffToFile();
@@ -47,7 +51,7 @@ REINIT:     /* initialize it */
 		// file pointer tells us the size
 		off_t fsize = ftell(file);
 		if (fsize != size) {
-			ret = 2;
+			ret = 2; //file is wrong size
 			goto REINIT;
 		}
 		fclose(file);
@@ -55,13 +59,13 @@ REINIT:     /* initialize it */
 		readFileToBuff();
 
 		if (!buffValid()) {
-			ret = 2;
+			ret = 2; //file had invalid magic number
 			goto REINIT;
 		} else {
 			if (dateCurrent(day, month, year)) {
-				ret = 1;
+				ret = 1; //file is current
 			} else {
-				ret = 0;
+				ret = 0; //file is from another day
 				goto REINIT;
 			}
 		}
@@ -69,6 +73,7 @@ REINIT:     /* initialize it */
 	return ret;
 }
 
+//free buffers
 void mydataExit()
 {
 	free(buffer);
@@ -85,8 +90,6 @@ u16 getStoredCoins()
 	bytes[0] = highByte;
 	bytes[1] = lowByte;
 
-	/* combined <<= 8; */
-	/* combined = combined | lowByte; */
 	return combined;
 }
 void setStoredCoins(u16 value)
